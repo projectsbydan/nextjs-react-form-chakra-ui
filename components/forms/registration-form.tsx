@@ -1,77 +1,71 @@
 import { useForm } from "react-hook-form";
 import React from "react";
-import {
-  FormErrorMessage,
-  FormLabel,
-  FormControl,
-  Input,
-  Button,
-} from "@chakra-ui/react";
+import { FormErrorMessage, FormLabel, FormControl, Input, Button } from "@chakra-ui/react";
 
-export default function RegistrationForm({
-  onRegistered,
-}: {
-  onRegistered: (data: {
-    enrollmentId: string;
-    name: string;
-    email: string;
-  }) => void;
-}) {
+interface IRegistration {
+  enrollmentId: string;
+  name: string;
+  email: string;
+}
+
+interface IRegistratrionFormProps {
+  onRegistered: (data: IRegistration) => void;
+}
+
+export default function RegistrationForm({ onRegistered }: IRegistratrionFormProps) {
   const {
-    handleSubmit,
-    register,
-
-    formState: { errors, isSubmitting },
-  } = useForm({ shouldUseNativeValidation: false });
+    handleSubmit, // handels the form submit event
+    register, // ties the inputs to react-form
+    formState: { errors, isSubmitting }, // gets errors and "loading" state
+  } = useForm();
 
   return (
-    <form onSubmit={handleSubmit(onRegistered)}>
-      <FormControl isInvalid={errors.name} isRequired>
-        <FormLabel htmlFor="enrollmentId">Enrollment ID</FormLabel>
+    <form onSubmit={handleSubmit(onRegistered)} noValidate>
+      {/* noValidate will stop the browser validation, so we can write our own designs and logic */}
+      <FormControl isInvalid={errors.enrollmentId}>
+        <FormLabel htmlFor="enrollmentId">
+          Enrollment ID
+          {/* the form label from chakra ui is tied to the input via the htmlFor attribute */}
+        </FormLabel>
+        {/* you should use the save value for the id and the property name */}
         <Input
           id="enrollmentId"
           placeholder="AX-3345-GHBB-2021"
-          required={false}
-          {...register("enrollmentId", {
-            required: "Don't forget the Enrollment ID",
-          })}
+          {
+            ...register("enrollmentId", {
+              required: "Don't forget the Enrollment ID",
+            }) /* this register function will take care of the react-form binding to the ui */
+          }
         ></Input>
-        <FormErrorMessage>
-          {errors.enrollmentId && errors.enrollmentId.message}
-        </FormErrorMessage>
+        {/* react-form will calculate the errors on submit or on dirty state */}
+        <FormErrorMessage>{errors.enrollmentId && errors.enrollmentId.message}</FormErrorMessage>
       </FormControl>
-      <FormControl isInvalid={errors.name} isRequired>
+      <FormControl isInvalid={errors.name}>
         <FormLabel required htmlFor="name">
           Name
         </FormLabel>
         <Input
           id="name"
           placeholder="John Coolio"
-          required={false}
           {...register("name", {
             required: "Did you forget your name?",
           })}
         ></Input>
-        <FormErrorMessage>
-          {errors.name && errors.name.message}
-        </FormErrorMessage>
+        <FormErrorMessage>{errors.name && errors.name.message}</FormErrorMessage>
       </FormControl>
-      <FormControl isInvalid={errors.email} isRequired>
+      <FormControl isInvalid={errors.email}>
         <FormLabel required htmlFor="email">
           E-Mail Address
         </FormLabel>
         <Input
           id="email"
           placeholder="john.coolio@events.de"
-          required={false}
           type="email"
           {...register("email", {
             required: "We really need your E-Mail!",
           })}
         ></Input>
-        <FormErrorMessage>
-          {errors.email && errors.email.message}
-        </FormErrorMessage>
+        <FormErrorMessage>{errors.email && errors.email.message}</FormErrorMessage>
       </FormControl>
       <Button mt={10} colorScheme="blue" isLoading={isSubmitting} type="submit">
         Register 🐱‍🏍

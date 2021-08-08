@@ -9,6 +9,7 @@ const theme = extendTheme({
   styles: {
     global: (props: any) => ({
       body: {
+        // light and dark mode background
         backgroundColor: mode("gray.400", "gray.900")(props),
       },
     }),
@@ -17,6 +18,7 @@ const theme = extendTheme({
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
+    // add the chakra ui provider with custom theming for the background
     <ChakraProvider theme={theme}>
       <Component {...pageProps} />
     </ChakraProvider>
