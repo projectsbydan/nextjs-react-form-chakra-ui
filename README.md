@@ -15,3 +15,5 @@ You can check out [projectsbydan.com](https://projectsbydan.com/) to get more in
 ## Live demo
 
 A live demo runs on Vercel Servers. Check it out here [live demo](https://nextjs-react-form-chakra-ui.vercel.app/)
+
+![react-form-gif-preview](https://nextjs-react-form-chakra-ui.vercel.app/react-forms-preview.gif)
